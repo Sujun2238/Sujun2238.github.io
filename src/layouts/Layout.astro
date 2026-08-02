@@ -1,0 +1,136 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description ?? 'Sujun2238 的个人博客'} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav">
+        <a href="/" class="brand">My Blog</a>
+        <div class="nav-links">
+          <a href="/">首页</a>
+          <a href="/blog">博客</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>© {year} Sujun2238 · 由 <a href="https://astro.build/">Astro</a> 驱动</p>
+    </footer>
+
+    <style is:global>
+      :root {
+        --fg: #1a1a1a;
+        --muted: #6b7280;
+        --accent: #4f46e5;
+        --border: #e5e7eb;
+        --bg: #ffffff;
+        --bg-soft: #f9fafb;
+        --max-width: 720px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--fg);
+        background: var(--bg);
+        line-height: 1.7;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .nav {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--fg);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.25rem;
+      }
+      .nav-links a {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .nav-links a:hover {
+        color: var(--fg);
+      }
+
+      .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem;
+        flex: 1;
+        width: 100%;
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--border);
+        text-align: center;
+        padding: 1.5rem;
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+      .site-footer a {
+        color: var(--muted);
+      }
+
+      h1 {
+        line-height: 1.25;
+      }
+    </style>
+  </body>
+</html>

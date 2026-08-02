@@ -1,0 +1,109 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  pubDate: Date;
+  description?: string;
+}
+
+const { title, pubDate, description } = Astro.props;
+const dateStr = pubDate.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout title={`${title} - My Blog`} description={description}>
+  <article class="post">
+    <header class="post-header">
+      <h1>{title}</h1>
+      <time datetime={pubDate.toISOString()} class="post-date">{dateStr}</time>
+    </header>
+
+    <div class="post-content">
+      <slot />
+    </div>
+
+    <p class="back">
+      <a href="/blog">← 返回博客列表</a>
+    </p>
+  </article>
+</Layout>
+
+<style>
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-header h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+  }
+  .post-date {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .back {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  :global(.post-content) {
+    font-size: 1.05rem;
+  }
+  :global(.post-content h2) {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+  }
+  :global(.post-content h3) {
+    margin-top: 1.5rem;
+    font-size: 1.15rem;
+  }
+  :global(.post-content p),
+  :global(.post-content ul),
+  :global(.post-content ol) {
+    margin: 1rem 0;
+  }
+  :global(.post-content ul),
+  :global(.post-content ol) {
+    padding-left: 1.5rem;
+  }
+  :global(.post-content li) {
+    margin: 0.4rem 0;
+  }
+  :global(.post-content code) {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  :global(.post-content pre) {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  :global(.post-content pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  :global(.post-content blockquote) {
+    margin: 1.25rem 0;
+    padding: 0.5rem 1rem;
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+    background: var(--bg-soft);
+    border-radius: 0 6px 6px 0;
+  }
+  :global(.post-content img) {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+</style>
