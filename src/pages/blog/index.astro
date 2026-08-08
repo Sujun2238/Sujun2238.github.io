@@ -13,7 +13,7 @@ const fmt = (d: Date) =>
 <Layout title="博客 - My Blog" description="所有文章列表">
   <section>
     <h1>所有博客</h1>
-    <p class="count">共 {posts.length} 篇</p>
+    <p class="count">共 {posts.length} 篇 · <a href="/blog/tags/">标签统计</a></p>
 
     {posts.length === 0 ? (
       <p>还没有文章，去 <code>src/content/blog/</code> 添加第一篇吧。</p>
@@ -30,6 +30,13 @@ const fmt = (d: Date) =>
                 {fmt(post.data.pubDate)}
               </time>
             </a>
+            {post.data.tags.length > 0 && (
+              <ul class="tags">
+                {post.data.tags.map((tag) => (
+                  <li><a href={`/blog/tags/${tag}/`}>#{tag}</a></li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
@@ -46,6 +53,9 @@ const fmt = (d: Date) =>
     color: var(--muted);
     font-size: 0.9rem;
     margin: 0 0 2rem;
+  }
+  .count a {
+    color: var(--accent);
   }
   .post-list {
     list-style: none;
@@ -82,5 +92,27 @@ const fmt = (d: Date) =>
   .post-date {
     color: var(--muted);
     font-size: 0.82rem;
+  }
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.4rem 0 0.75rem;
+    padding: 0;
+  }
+  .tags li a {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+  }
+  .tags li a:hover {
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
   }
 </style>

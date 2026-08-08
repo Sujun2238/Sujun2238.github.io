@@ -2,6 +2,7 @@
 title: "用 GitHub Actions 把 Astro 部署到 GitHub Pages"
 pubDate: 2026-08-02
 description: "记录从零搭建 Astro 并自动部署到 GitHub Pages 的关键步骤。"
+tags: ["Astro", "GitHub", "教程"]
 ---
 
 本文记录把 Astro 站点通过 GitHub Actions 自动部署到 GitHub Pages 的关键配置。

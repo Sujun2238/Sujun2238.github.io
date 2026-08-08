@@ -5,11 +5,12 @@ interface Props {
   title: string;
   pubDate: Date;
   description?: string;
+  tags?: string[];
   backHref?: string;
   backLabel?: string;
 }
 
-const { title, pubDate, description, backHref = '/blog', backLabel = '返回博客列表' } = Astro.props;
+const { title, pubDate, description, tags = [], backHref = '/blog', backLabel = '返回博客列表' } = Astro.props;
 const dateStr = pubDate.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',
@@ -22,6 +23,13 @@ const dateStr = pubDate.toLocaleDateString('zh-CN', {
     <header class="post-header">
       <h1>{title}</h1>
       <time datetime={pubDate.toISOString()} class="post-date">{dateStr}</time>
+      {tags.length > 0 && (
+        <ul class="tags">
+          {tags.map((tag) => (
+            <li><a href={`/blog/tags/${tag}/`}>#{tag}</a></li>
+          ))}
+        </ul>
+      )}
     </header>
 
     <div class="post-content">
@@ -47,6 +55,28 @@ const dateStr = pubDate.toLocaleDateString('zh-CN', {
   .post-date {
     color: var(--muted);
     font-size: 0.9rem;
+  }
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.6rem 0 0;
+    padding: 0;
+  }
+  .tags li a {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+  }
+  .tags li a:hover {
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
   }
   .back {
     margin-top: 3rem;
