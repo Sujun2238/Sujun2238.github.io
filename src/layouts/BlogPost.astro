@@ -5,9 +5,11 @@ interface Props {
   title: string;
   pubDate: Date;
   description?: string;
+  backHref?: string;
+  backLabel?: string;
 }
 
-const { title, pubDate, description } = Astro.props;
+const { title, pubDate, description, backHref = '/blog', backLabel = '返回博客列表' } = Astro.props;
 const dateStr = pubDate.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',
@@ -27,7 +29,7 @@ const dateStr = pubDate.toLocaleDateString('zh-CN', {
     </div>
 
     <p class="back">
-      <a href="/blog">← 返回博客列表</a>
+      <a href={backHref}>← {backLabel}</a>
     </p>
   </article>
 </Layout>

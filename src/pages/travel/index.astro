@@ -1,0 +1,86 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('travel')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Layout title="旅行随笔 - My Blog" description="旅行随笔与游记">
+  <section>
+    <h1>旅行随笔</h1>
+    <p class="count">共 {posts.length} 篇</p>
+
+    {posts.length === 0 ? (
+      <p>还没有游记，去 <code>src/content/travel/</code> 添加第一篇吧。</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <a href={`/travel/${post.id}/`} class="post-card">
+              <span class="post-title">{post.data.title}</span>
+              {post.data.description && (
+                <span class="post-desc">{post.data.description}</span>
+              )}
+              <time datetime={post.data.pubDate.toISOString()} class="post-date">
+                {fmt(post.data.pubDate)}
+              </time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</Layout>
+
+<style>
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.75rem;
+  }
+  .count {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 2rem;
+  }
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .post-list li {
+    margin: 0;
+  }
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.85rem;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .post-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .post-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--fg);
+  }
+  .post-desc {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .post-date {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+</style>

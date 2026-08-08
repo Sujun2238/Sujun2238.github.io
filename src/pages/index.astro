@@ -7,6 +7,10 @@ const posts = (await getCollection('blog')).sort(
 );
 const recent = posts.slice(0, 3);
 
+const travelPosts = (await getCollection('travel'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
 const fmt = (d: Date) =>
   d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
@@ -38,6 +42,27 @@ const fmt = (d: Date) =>
         ))}
       </ul>
     )}
+  </section>
+
+  <section class="recent">
+    <h2>旅行随笔</h2>
+    {travelPosts.length === 0 ? (
+      <p>还没有游记。</p>
+    ) : (
+      <ul class="post-list">
+        {travelPosts.map((post) => (
+          <li>
+            <a href={`/travel/${post.id}/`} class="post-card">
+              <span class="post-title">{post.data.title}</span>
+              <time datetime={post.data.pubDate.toISOString()} class="post-date">
+                {fmt(post.data.pubDate)}
+              </time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    <a href="/travel" class="cta">查看全部游记 →</a>
   </section>
 </Layout>
 
